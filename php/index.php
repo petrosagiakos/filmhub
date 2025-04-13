@@ -1,4 +1,18 @@
-<!DOCTYPE html>
+<?php
+session_start();
+            $server="db";
+            $user="admin";
+            $pass="admin";
+            $db="movies";
+            
+            $conn=mysqli_connect($server,$user,$pass,$db);
+            // Check if the user is logged in
+            if (!isset($_SESSION['username']) ) {
+                header("Location: login.html"); // Redirect to login page if not logged in
+                exit;
+            }
+            ?>
+            <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,22 +23,7 @@
 </head>
 <body>
     
-    
-
-        
-       <?php
-            
-            $server="localhost";
-            $user="username";
-            $pass="password";
-            $db="movies";
-            session_start();
-            $conn=mysqli_connect($server,$user,$pass,$db);
-            // Check if the user is logged in
-            if (!isset($_SESSION['username'])) {
-                header("Location: login.html"); // Redirect to login page if not logged in
-                exit;
-            }
+            <?php
             $search_term = isset($_GET['s']) ? mysqli_real_escape_string($conn, $_GET['s']) : "";
 
             if(htmlspecialchars($_SESSION['username'])=="admin"){
@@ -70,7 +69,7 @@
                 <select name='category' id='category'>
                 <option value=''>All</option>";
                     // Fetch distinct categories from the database
-                    $cat_query = "SELECT DISTINCT CATEGORY FROM movies";
+                    $cat_query = "SELECT DISTINCT CATEGORY FROM MOVIES";
                     $cat_result = mysqli_query($conn, $cat_query);
                     while ($cat_row = mysqli_fetch_assoc($cat_result)) {
                         $selected = (isset($_GET['category']) && $_GET['category'] == $cat_row['CATEGORY']) ? 'selected' : '';
@@ -90,7 +89,7 @@
 
             echo "<div class='movie-list'>";
             $category=isset($_GET['category'])? mysqli_real_escape_string($conn, $_GET['category']) : "";
-            $sql = "SELECT * FROM movies WHERE 1";
+            $sql = "SELECT * FROM MOVIES WHERE 1";
             if (!empty($search_term)) {
                 $sql .= " AND NAME LIKE '%$search_term%'";
                 
@@ -105,7 +104,7 @@
                 while($row= mysqli_fetch_assoc($result)){
                     echo '<div class="movie-item">
                             <a href="movie.php?id=' . $row['ID'] . '">
-                                <img src="images/' . $row['IMAGES'] . '" alt="' . $row['NAME'] . '" width="150">
+                                <img src="images/' . $row['IMAGE'] . '" alt="' . $row['NAME'] . '" width="150">
                                 <p>' . $row['NAME'] . '</p>
                             </a>
                         </div>';

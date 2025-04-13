@@ -1,0 +1,23 @@
+services:
+  website:
+    image: php:apache
+    command: bash -c "docker-php-ext-install mysqli pdo_mysql && apache2-foreground"
+    ports:
+      - "8083:80"
+    depends_on:
+      - db
+    restart: always
+    volumes:
+      - ./php:/var/www/html
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: movies
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./sql_init/init.sql:/docker-entrypoint-initdb.d/init.sql
+

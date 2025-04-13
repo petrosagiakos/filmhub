@@ -1,9 +1,10 @@
 <?php 
-$server="localhost";
-$user="username";
-$pass="password";
-$db="movies";
 session_start();
+ $server="db";
+ $user="admin";
+ $pass="admin";
+$db="movies";
+
 $conn=mysqli_connect($server,$user,$pass,$db);
 if(!$conn){
     die("Connection failed: ".mysqli_connect_error());
@@ -14,13 +15,13 @@ $username=$_POST['user'];
 $password=$_POST['pass'];
 
 
-$sql="SELECT username, password1 FROM USERS";
+$sql="SELECT USERNAME, PASSWORD1 FROM USERS";
 $result=mysqli_query($conn,$sql);
 $c=1;
 if(mysqli_num_rows($result)>0){
    while($row= mysqli_fetch_assoc($result)){
-    if($row['username']==$username && $row["password1"]==$password){
-        echo "succesful connection"." <br>";
+    if($row['USERNAME']==$username && $row["PASSWORD1"]==$password){
+       
         $_SESSION['username'] = $username; // Store username in session
         header("Location: index.php"); // Redirect to main page
         exit;
@@ -32,7 +33,7 @@ if(mysqli_num_rows($result)>0){
 }
 
 if($c==1){
-    echo "invalid connection";
+  
     header("Location: login.html"); // Redirect to login page
     exit;
 }

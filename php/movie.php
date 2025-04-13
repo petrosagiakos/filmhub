@@ -1,4 +1,25 @@
-<!DOCTYPE html>
+<?php
+session_start();
+     $server="db";
+     $user="admin";
+     $pass="admin";
+    $db="movies";
+   
+    $conn=mysqli_connect($server,$user,$pass,$db);
+    //session_start();
+    if (!isset($_GET['id']) ) {
+        die("Invalid movie ID.");
+    }
+    $movie_id =  $_GET['id']; // Cast to integer for security
+
+
+    // Check if the user is logged in
+    if (!isset($_SESSION['username'])) {
+        header("Location: login.html"); // Redirect to login page if not logged in
+        exit;
+    }
+    ?>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -41,29 +62,7 @@
 
 </head>
 <body>
-    
-
-
-
-<?php
-    $server="localhost";
-    $user="username";
-    $pass="password";
-    $db="movies";
-    session_start();
-    $conn=mysqli_connect($server,$user,$pass,$db);
-    //session_start();
-    if (!isset($_GET['id']) ) {
-        die("Invalid movie ID.");
-    }
-    $movie_id =  $_GET['id']; // Cast to integer for security
-
-
-    // Check if the user is logged in
-    if (!isset($_SESSION['username'])) {
-        header("Location: login.html"); // Redirect to login page if not logged in
-        exit;
-    }
+    <?php
     if(htmlspecialchars($_SESSION['username'])=="admin"){
         echo '<header>
         <h1>FilmHub</h1>
@@ -101,7 +100,7 @@
         die("Movie not found.");
     }
     // Fetch subtitles for the movie
-    $sql_subs = "SELECT * FROM subtitles WHERE MOVIE_ID='$movie_id'";
+    $sql_subs = "SELECT * FROM SUBTITLES WHERE MOVIE_ID='$movie_id'";
     $result_subs = mysqli_query($conn, $sql_subs);
     $subtitles = [];
     while ($row = mysqli_fetch_assoc($result_subs)) {

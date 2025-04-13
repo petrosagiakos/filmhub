@@ -1,26 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>FilmHub</title>
-    <link rel="stylesheet" href="./style/form.css">
-</head>
-<body>
-    <?php
-    
-    $server="localhost";
-            $user="username";
-            $pass="password";
+<?php
+session_start();
+            $server="db";
+            $user="admin";
+            $pass="admin";
             $db="movies";
-            session_start();
+            
             $conn=mysqli_connect($server,$user,$pass,$db);
             // Check if the user is logged in
             if (!isset($_SESSION['username'])) {
                 header("Location: login.html"); // Redirect to login page if not logged in
                 exit;
             }
+            if(htmlspecialchars($_SESSION['username'])!="admin"){
+                header("Location: index.php");
+              exit;
+            }
+            ?>
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+            <title>FilmHub</title>
+            <link rel="stylesheet" href="./style/form.css">
+            </head>
+            <body>
+            <?php
             $search_term = isset($_GET['s']) ? mysqli_real_escape_string($conn, $_GET['s']) : "";
 
-            if(htmlspecialchars($_SESSION['username'])=="admin"){
+           
                 echo '<header>
                 <h1>FilmHub</h1>
                 <ul>
@@ -34,11 +40,7 @@
            
                 </ul>
             </header>';
-            }else{
-                header("Location: index.php");
-              exit;
-
-            }
+            
     
     
     
@@ -66,7 +68,7 @@
         </div>
         <div class="img">
             <label for="subs">Upload Subtitles:</label>
-            <input type="file" name="subs[]" multiple accept=".srt"><br>
+            <input type="file" name="subs[]" multiple accept=".srt, .vtt"><br>
         </div>
         <div class="cat">
             <label for="cat">Category</label>

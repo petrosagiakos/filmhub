@@ -1,9 +1,10 @@
 <?php
-$server="localhost";
-$user="username";
-$pass="password";
-$db="movies";
 session_start();
+$server="db";
+$user="admin";
+$pass="admin";
+$db="movies";
+
 $conn=mysqli_connect($server,$user,$pass,$db);
 if(!$conn){
     die("Connection failed: ".mysqli_connect_error());
@@ -51,7 +52,7 @@ if (isset($_FILES["file"])&&isset($_FILES["img"])&&isset($_FILES["subs"])) {
             $img = basename($_FILES["img"]["name"]);
 
             // Insert movie into database
-            $sql = "INSERT INTO movies (name, descr, video, images, category) 
+            $sql = "INSERT INTO MOVIES (NAME, DESCR, VIDEO, IMAGE, CATEGORY) 
                     VALUES ('$title', '$text', '$f', '$img', '$cat')";
             
             if (mysqli_query($conn, $sql)) {
@@ -72,7 +73,7 @@ if (isset($_FILES["file"])&&isset($_FILES["img"])&&isset($_FILES["subs"])) {
                             $lang_code = end($parts);
                             
                             // Insert subtitle record into the subtitles table
-                            $sql_sub = "INSERT INTO subtitles (SBTL_FILE, MOVIE_ID, LANG_CODE) 
+                            $sql_sub = "INSERT INTO SUBTITLES(SBTL_FILE, MOVIE_ID, LANG_CODE) 
                                         VALUES ('$file_name', '$movie_id','$lang_code')";
                             mysqli_query($conn, $sql_sub);
                         }
@@ -100,7 +101,7 @@ if (isset($_FILES["file"])&&isset($_FILES["img"])&&isset($_FILES["subs"])) {
 }
 }
 
-header("Location: am_front.php");
+//header("Location: am_front.php");
 exit;
 mysqli_close($conn);
 ?>

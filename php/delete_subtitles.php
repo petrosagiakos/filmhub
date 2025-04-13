@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Delete Subtitles - FilmHub</title>
-    <link rel="stylesheet" href="./style/form.css">
-</head>
-<body>
-    <?php
-    $server = "localhost";
-    $user = "username";
-    $pass = "password";
+<?php
+session_start();
+     $server="db";
+     $user="admin";
+     $pass="admin";
     $db = "movies";
     
-    session_start();
+    
     $conn = mysqli_connect($server, $user, $pass, $db);
     
     // Check if the user is logged in
@@ -19,7 +13,15 @@
         header("Location: index.php");
         exit;
     }
-    
+    ?>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Delete Subtitles - FilmHub</title>
+    <link rel="stylesheet" href="./style/form.css">
+</head>
+<body>
+    <?php
     echo '<header>
         <h1>FilmHub</h1>
         <ul>
@@ -43,7 +45,7 @@
                     <?php
                     // Fetch movies that have subtitles
                     $sub_query = "SELECT ID,SBTL_FILE
-                                  FROM subtitles 
+                                  FROM SUBTITLES
                                   ";
                     $sub_result = mysqli_query($conn, $sub_query);
                     
@@ -67,11 +69,11 @@
         $id = (int) $_POST['subid'];
         
         
-        $sql_subs = "SELECT * FROM subtitles WHERE ID='$id'";
+        $sql_subs = "SELECT * FROM SUBTITLES WHERE ID='$id'";
         $result = mysqli_query($conn, $sql_subs);
         $subs = mysqli_fetch_assoc($result);
         unlink("./subtitles/".$subs['SBTL_FILE']);
-        $sql_subs = "DELETE  FROM subtitles WHERE ID='$id'";
+        $sql_subs = "DELETE  FROM SUBTITLES WHERE ID='$id'";
         mysqli_query($conn, $sql_subs);
 
        

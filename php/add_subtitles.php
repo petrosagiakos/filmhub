@@ -1,4 +1,23 @@
-<!DOCTYPE html>
+<?php
+session_start();
+            $server="db";
+            $user="admin";
+            $pass="admin";
+            $db="movies";
+            
+            $conn=mysqli_connect($server,$user,$pass,$db);
+            // Check if the user is logged in
+            if (!isset($_SESSION['username'])) {
+                header("Location: login.html"); // Redirect to login page if not logged in
+                exit;
+            }
+            if(htmlspecialchars($_SESSION['username'])!="admin"){
+                header("Location: index.php");
+              exit;
+
+            }
+            ?>
+            <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>FilmHub</title>
@@ -6,21 +25,9 @@
 </head>
 <body>
     <?php
-    
-    $server="localhost";
-            $user="username";
-            $pass="password";
-            $db="movies";
-            session_start();
-            $conn=mysqli_connect($server,$user,$pass,$db);
-            // Check if the user is logged in
-            if (!isset($_SESSION['username'])) {
-                header("Location: login.html"); // Redirect to login page if not logged in
-                exit;
-            }
             $search_term = isset($_GET['s']) ? mysqli_real_escape_string($conn, $_GET['s']) : "";
 
-            if(htmlspecialchars($_SESSION['username'])=="admin"){
+            
                 echo '<header>
                 <h1>FilmHub</h1>
                 <ul>
@@ -34,11 +41,7 @@
            
                 </ul>
             </header>';
-            }else{
-                header("Location: index.php");
-              exit;
-
-            }
+            
     
     
     
@@ -55,7 +58,7 @@
         <?php
         
                     // Fetch distinct categories from the database
-                    $cat_query = "SELECT ID,name FROM movies";
+                    $cat_query = "SELECT ID,NAME FROM movies";
                     
                     $cat_result = mysqli_query($conn, $cat_query);
                     while ($cat_row = mysqli_fetch_assoc($cat_result)) {
@@ -110,7 +113,7 @@
                                     $lang_code = end($parts);
                                     
                                     // Insert subtitle record into the subtitles table
-                                    $sql_sub = "INSERT INTO subtitles (SBTL_FILE, MOVIE_ID, LANG_CODE) 
+                                    $sql_sub = "INSERT INTO SUBTITLES (SBTL_FILE, MOVIE_ID, LANG_CODE) 
                                                 VALUES ('$file_name', '$id','$lang_code')";
                                     mysqli_query($conn, $sql_sub);
                                 }

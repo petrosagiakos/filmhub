@@ -1,9 +1,10 @@
 <?php
-$server="localhost";
-$user="username";
-$pass="password";
-$db="movies";
 session_start();
+ $server="db";
+ $user="admin";
+ $pass="admin";
+$db="movies";
+
 $conn=mysqli_connect($server,$user,$pass,$db);
 if(!$conn){
     die("Connection failed: ".mysqli_connect_error());
@@ -27,10 +28,10 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
     }
 
     $file_vid="movies/".$movie["VIDEO"];
-    $file_img="images/".$movie["IMAGES"];
+    $file_img="images/".$movie["IMAGE"];
 
     // Delete subtitle files
-    $sql_sub="SELECT * FROM subtitles WHERE MOVIE_ID='$id'";
+    $sql_sub="SELECT * FROM SUBTITLES WHERE MOVIE_ID='$id'";
     $result_sub=mysqli_query($conn, $sql_sub);
     while($row = mysqli_fetch_assoc($result_sub)){
         $sub_file = "./subtitles/" . $row['SBTL_FILE'];
@@ -50,7 +51,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
     
 
     // Delete subtitles record
-    $sql_sub2="DELETE FROM subtitles WHERE MOVIE_ID='$id'";
+    $sql_sub2="DELETE FROM SUBTITLES WHERE MOVIE_ID='$id'";
     if (mysqli_query($conn, $sql_sub2)) {
         echo "Subtitles deleted successfully.<br>";
     } else {
@@ -66,6 +67,6 @@ if (mysqli_query($conn, $sql)) {
 }
 }
 mysqli_close($conn);
-header("Location: dm_front.php");
+//header("Location: dm_front.php");
 exit;
 ?>
