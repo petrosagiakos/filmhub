@@ -19,5 +19,5 @@ A web browser application to manage your video content locally
 - go to ```http://localhost/phpmyadmin``` in you browser
 - create a new database called "movies"
 - click the databse and select import
-- import the init.sql file in the sql_init folder
+- import the sql_init/init.sql file
 - go to ```http://localhost/filmhub/php```
