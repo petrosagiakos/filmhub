@@ -13,7 +13,7 @@ A web browser application to manage your video content locally
 ### Windows
 
 - Install xampp
-- go inside the htdocs repository
+- go inside the htdocs folder
 - clone this repository inside htdocs
 - start the apache server and mysql in xampp control panel
 - go to ```http://localhost/phpmyadmin``` in you browser
